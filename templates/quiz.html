@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quiz - Jr. Ramanuja</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Fredoka',sans-serif;
+}
+
+body{
+background:#fff7ed;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+position:relative;
+overflow-x:hidden;
+}
+
+body::before{
+content:'';
+position:absolute;
+width:300px;
+height:300px;
+background:#fde68a;
+border-radius:50%;
+top:-100px;
+left:-100px;
+z-index:-1;
+}
+
+body::after{
+content:'';
+position:absolute;
+width:350px;
+height:350px;
+background:#bfdbfe;
+border-radius:50%;
+bottom:-120px;
+right:-120px;
+z-index:-1;
+}
+
+.quiz-card{
+width:100%;
+max-width:800px;
+background:white;
+padding:40px;
+border-radius:40px;
+box-shadow:0 15px 40px rgba(0,0,0,.08);
+text-align:center;
+}
+
+h1{
+font-size:42px;
+color:#1e293b;
+}
+
+.topic-name{
+margin-top:10px;
+font-size:20px;
+color:#64748b;
+}
+
+.section-title{
+margin-top:25px;
+font-size:28px;
+color:#1e293b;
+}
+
+.input-box,
+.select-box{
+width:100%;
+margin-top:15px;
+padding:16px;
+font-size:18px;
+border:none;
+border-radius:20px;
+background:#f1f5f9;
+outline:none;
+text-align:center;
+}
+
+.start-btn,
+.submit-btn{
+margin-top:20px;
+padding:16px 35px;
+border:none;
+border-radius:25px;
+background:#f97316;
+color:white;
+font-size:20px;
+font-weight:600;
+cursor:pointer;
+}
+
+.score-box{
+margin-top:20px;
+font-size:22px;
+font-weight:600;
+color:#f97316;
+}
+
+.question-counter{
+margin-top:15px;
+font-size:18px;
+color:#64748b;
+}
+
+.question{
+margin-top:25px;
+font-size:52px;
+font-weight:700;
+color:#1e293b;
+}
+
+.answer-box{
+width:100%;
+margin-top:25px;
+padding:18px;
+border:none;
+border-radius:20px;
+background:#f1f5f9;
+font-size:24px;
+text-align:center;
+outline:none;
+}
+
+.feedback{
+margin-top:20px;
+font-size:22px;
+font-weight:600;
+min-height:30px;
+}
+
+.correct{
+color:#22c55e;
+}
+
+.wrong{
+color:#ef4444;
+}
+
+.home-btn{
+display:inline-block;
+margin-top:25px;
+padding:15px 30px;
+background:#3b82f6;
+color:white;
+text-decoration:none;
+border-radius:20px;
+font-weight:600;
+}
+
+#quizScreen,
+#resultScreen{
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="quiz-card">
+
+<h1>🧠 Jr. Ramanuja Quiz</h1>
+
+<p class="topic-name" id="topicName">Loading...</p>
+
+<div id="setupScreen">
+
+<h2 class="section-title">Quiz Setup ⚙️</h2>
+
+<input type="number" id="minNum" class="input-box" value="1">
+
+<input type="number" id="maxNum" class="input-box" value="20">
+
+<select id="questionCount" class="select-box">
+<option value="5">5 Questions</option>
+<option value="10">10 Questions</option>
+<option value="15">15 Questions</option>
+<option value="20">20 Questions</option>
+</select>
+
+<select id="numbersCount" class="select-box">
+<option value="2">2 Numbers</option>
+<option value="3">3 Numbers</option>
+<option value="4">4 Numbers</option>
+<option value="5">5 Numbers</option>
+</select>
+
+<button class="start-btn" onclick="startQuiz()">
+🚀 Start Quiz
+</button>
+
+</div>
+
+<div id="quizScreen">
+
+<div class="score-box">
+Score: <span id="score">0</span>
+</div>
+
+<div class="question-counter" id="questionCounter"></div>
+
+<div class="question" id="question"></div>
+
+<input type="number"
+id="answer"
+class="answer-box"
+placeholder="Enter Answer">
+
+<button class="submit-btn" onclick="checkAnswer()">
+Submit
+</button>
+
+<div id="feedback" class="feedback"></div>
+
+</div>
+
+<div id="resultScreen">
+
+<h2 class="section-title">
+🎉 Quiz Completed
+</h2>
+
+<div class="score-box">
+Score: <span id="finalScore"></span>
+</div>
+
+<div class="score-box">
+Accuracy: <span id="accuracy"></span>
+</div>
+
+<a href="{{ url_for('dashboard') }}" class="home-btn">
+← Dashboard
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+let minNum=1;
+let maxNum=20;
+let totalQuestions=5;
+let numbersPerQuestion=2;
+
+let currentQuestion=0;
+let score=0;
+let correctAnswer=0;\nlet answerLocked=false;
+
+let topic =
+new URLSearchParams(window.location.search)
+.get("topic") || "addition";
+
+document.getElementById("topicName").innerText =
+topic.charAt(0).toUpperCase() + topic.slice(1);
+
+function randomNum(){
+return Math.floor(
+Math.random()*(maxNum-minNum+1)
+)+minNum;
+}
+
+function startQuiz(){
+
+minNum=parseInt(document.getElementById("minNum").value);
+maxNum=parseInt(document.getElementById("maxNum").value);
+totalQuestions=parseInt(document.getElementById("questionCount").value);
+numbersPerQuestion=parseInt(document.getElementById("numbersCount").value);
+
+console.log("Questions:", totalQuestions);
+console.log("Numbers:", numbersPerQuestion);
+
+currentQuestion=0;
+score=0;
+
+document.getElementById("score").innerText="0";
+
+document.getElementById("setupScreen").style.display="none";
+document.getElementById("quizScreen").style.display="block";
+
+generateQuestion();
+}
+
+function generateQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion>totalQuestions){
+showResult();
+return;
+}
+
+let currentTopic = topic;
+
+if(topic === "random"){
+
+const operations = [
+"addition",
+"subtraction",
+"multiplication",
+"division"
+];
+
+currentTopic =
+operations[Math.floor(Math.random()*operations.length)];
+
+document.getElementById("topicName").innerText =
+"Random Practice 🎲";
+}
+
+document.getElementById("questionCounter").innerText =
+`Question ${currentQuestion}/${totalQuestions}`;
+
+let numbers=[];
+
+for(let i=0;i<numbersPerQuestion;i++){
+numbers.push(randomNum());
+}
+
+if(currentTopic==="addition"){
+
+correctAnswer =
+numbers.reduce((a,b)=>a+b,0);
+
+document.getElementById("question").innerText =
+numbers.join(" + ");
+}
+
+else if(currentTopic==="multiplication"){
+
+correctAnswer =
+numbers.reduce((a,b)=>a*b,1);
+
+document.getElementById("question").innerText =
+numbers.join(" × ");
+}
+
+else if(currentTopic==="subtraction"){
+
+numbers.sort((a,b)=>b-a);
+
+correctAnswer=numbers[0];
+
+let text=numbers[0].toString();
+
+for(let i=1;i<numbers.length;i++){
+correctAnswer-=numbers[i];
+text+=" - "+numbers[i];
+}
+
+document.getElementById("question").innerText=text;
+}
+
+else if(currentTopic==="division"){
+
+// Build valid division pairs first, so this never gets stuck in an endless loop.
+let validPairs = [];
+
+for (let divisor = minNum; divisor <= maxNum; divisor++) {
+    for (let quotient = minNum; quotient <= Math.floor(maxNum / divisor); quotient++) {
+        validPairs.push({ divisor, quotient, dividend: divisor * quotient });
+    }
+}
+
+if (validPairs.length === 0) {
+    document.getElementById("question").innerText =
+        "Choose a wider number range for division.";
+    correctAnswer = null;
+    return;
+}
+
+let pair = validPairs[Math.floor(Math.random() * validPairs.length)];
+correctAnswer = pair.quotient;
+
+document.getElementById("question").innerText =
+    `${pair.dividend} ÷ ${pair.divisor}`;
+}
+
+document.getElementById("answer").value="";
+document.getElementById("answer").focus();
+}
+
+function checkAnswer(){
+
+let userAnswer =
+parseInt(document.getElementById("answer").value);
+
+let feedback =
+document.getElementById("feedback");
+
+if(userAnswer===correctAnswer){
+
+score++;
+
+document.getElementById("score").innerText=score;
+
+feedback.className="feedback correct";
+feedback.innerText="✅ Correct";
+
+}else{
+
+feedback.className="feedback wrong";
+feedback.innerText=
+`❌ Correct Answer: ${correctAnswer}`;
+}
+
+
+setTimeout(()=>{
+feedback.innerText="";
+generateQuestion();
+},1000);
+}
+
+function showResult(){
+
+document.getElementById("quizScreen").style.display="none";
+
+document.getElementById("resultScreen").style.display="block";
+
+document.getElementById("finalScore").innerText=
+`${score}/${totalQuestions}`;
+
+document.getElementById("accuracy").innerText=
+Math.round((score/totalQuestions)*100)+"%";
+
+/* SAVE RESULT TO FLASK */
+
+let operation = topic;
+
+if(topic==="random"){
+operation="random";
+}
+
+fetch("/save_result",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:
+`operation=${operation}&score=${score}&total_questions=${totalQuestions}`
+
+})
+
+.then(response=>response.text())
+.then(data=>console.log(data));
+
+}
+document.getElementById("answer").addEventListener("keydown", function(e){
+
+    if(e.key === "Enter"){
+        e.preventDefault();
+        checkAnswer();
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jr. Ramanuja</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Fredoka',sans-serif;
+}
+
+body{
+background:#fff7ed;
+padding:30px;
+overflow-x:hidden;
+position:relative;
+}
+
+body::before{
+content:'';
+position:absolute;
+width:300px;
+height:300px;
+background:#fde68a;
+border-radius:50%;
+top:-100px;
+left:-100px;
+z-index:-1;
+}
+
+body::after{
+content:'';
+position:absolute;
+width:350px;
+height:350px;
+background:#bfdbfe;
+border-radius:50%;
+bottom:-120px;
+right:-120px;
+z-index:-1;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.hero{
+background:white;
+border-radius:40px;
+padding:50px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:40px;
+flex-wrap:wrap;
+box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+.hero-left{
+flex:1;
+min-width:300px;
+}
+
+.hero-left h1{
+font-size:70px;
+color:#1e293b;
+line-height:1;
+}
+
+.hero-left span{
+color:#f97316;
+}
+
+.hero-left p{
+margin-top:20px;
+font-size:20px;
+color:#64748b;
+line-height:1.7;
+}
+
+.hero-btn{
+display:inline-block;
+margin-top:25px;
+padding:18px 35px;
+border-radius:25px;
+background:#f97316;
+color:white;
+font-size:20px;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+text-decoration:none;
+}
+
+.hero-btn:hover{
+transform:scale(1.05);
+}
+
+.logo-box{
+width:250px;
+height:250px;
+background:#f8fafc;
+border-radius:40px;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+border:5px dashed #cbd5e1;
+}
+
+.logo-box img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.section-title{
+margin-top:60px;
+margin-bottom:25px;
+font-size:36px;
+color:#1e293b;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:35px;
+box-shadow:0 12px 30px rgba(0,0,0,0.08);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card h3{
+font-size:26px;
+margin-top:10px;
+color:#1e293b;
+}
+
+.card p{
+margin-top:10px;
+color:#64748b;
+line-height:1.6;
+}
+
+.icon{
+font-size:60px;
+}
+
+.about{
+background:white;
+padding:40px;
+border-radius:40px;
+margin-top:30px;
+box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+.about p{
+font-size:19px;
+line-height:1.8;
+color:#475569;
+}
+
+.cta{
+margin-top:50px;
+background:linear-gradient(135deg,#3b82f6,#06b6d4);
+color:white;
+padding:50px;
+border-radius:40px;
+text-align:center;
+box-shadow:0 15px 40px rgba(0,0,0,0.1);
+}
+
+.cta h2{
+font-size:40px;
+}
+
+.cta p{
+margin-top:15px;
+font-size:20px;
+}
+
+.cta-btn{
+display:inline-block;
+margin-top:20px;
+padding:18px 35px;
+border-radius:25px;
+background:white;
+color:#1e293b;
+font-size:20px;
+font-weight:600;
+text-decoration:none;
+transition:.3s;
+}
+
+.cta-btn:hover{
+transform:scale(1.05);
+}
+
+footer{
+text-align:center;
+padding:40px 0;
+font-size:18px;
+color:#64748b;
+}
+
+@media(max-width:768px){
+
+.hero-left h1{
+font-size:48px;
+}
+
+.hero{
+padding:30px;
+}
+
+.logo-box{
+width:180px;
+height:180px;
+margin:auto;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="hero">
+
+<div class="hero-left">
+
+<h1>jr.<span>ramanuja</span></h1>
+
+<p>
+Helping young learners master mathematics through fun,
+interactive and engaging practice.
+Think • Solve • Grow 🚀
+</p>
+
+<a href="{{ url_for('login') }}" class="hero-btn">
+Start Learning ✨
+</a>
+
+</div>
+
+<div class="logo-box">
+<img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+</div>
+
+</div>
+
+<h2 class="section-title">Features 🌟</h2>
+
+<div class="grid">
+
+<div class="card">
+<div class="icon">🧠</div>
+<h3>Smart Practice</h3>
+<p>Generate unlimited maths questions instantly.</p>
+</div>
+
+<div class="card">
+<div class="icon">📈</div>
+<h3>Progress Tracking</h3>
+<p>Track learning and improve every day.</p>
+</div>
+
+<div class="card">
+<div class="icon">🎯</div>
+<h3>Focused Learning</h3>
+<p>Practice specific operations and skills.</p>
+</div>
+
+<div class="card">
+<div class="icon">📱</div>
+<h3>Responsive</h3>
+<p>Works on phones, tablets, laptops and desktops.</p>
+</div>
+
+</div>
+
+<h2 class="section-title">Learning Modules 📚</h2>
+
+<div class="grid">
+
+<div class="card">
+<div class="icon">➕</div>
+<h3>Addition</h3>
+</div>
+
+<div class="card">
+<div class="icon">➖</div>
+<h3>Subtraction</h3>
+</div>
+
+<div class="card">
+<div class="icon">✖️</div>
+<h3>Multiplication</h3>
+</div>
+
+<div class="card">
+<div class="icon">➗</div>
+<h3>Division</h3>
+</div>
+
+</div>
+
+<h2 class="section-title">Why Jr. Ramanuja?</h2>
+
+<div class="about">
+
+<p>
+Inspired by the legendary mathematician Ramanujan, this platform
+helps children build confidence in mathematics through simple,
+interactive and enjoyable learning experiences.
+</p>
+
+</div>
+
+<div class="cta">
+
+<h2>Ready To Become A Junior Ramanujan?</h2>
+
+<p>
+Start learning, solve challenges and grow your maths skills today.
+</p>
+
+<a href="{{ url_for('register') }}" class="cta-btn">
+Get Started 🚀
+</a>
+
+</div>
+
+<footer>
+© 2026 Jr. Ramanuja • Think • Solve • Grow
+</footer>
+
+</div>
+
+</body>
+</html>

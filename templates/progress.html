@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Progress - Jr. Ramanuja</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Fredoka',sans-serif;
+}
+
+body{
+background:#fff7ed;
+padding:20px;
+overflow-x:hidden;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+}
+
+.header{
+background:white;
+padding:30px;
+border-radius:35px;
+box-shadow:0 12px 25px rgba(0,0,0,.08);
+text-align:center;
+}
+
+.header h1{
+font-size:42px;
+color:#1e293b;
+}
+
+.header p{
+margin-top:10px;
+font-size:18px;
+color:#64748b;
+}
+
+.stats-grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.stat-card{
+background:white;
+padding:30px;
+border-radius:30px;
+text-align:center;
+box-shadow:0 12px 25px rgba(0,0,0,.08);
+}
+
+.stat-card h2{
+font-size:48px;
+color:#f97316;
+}
+
+.stat-card p{
+margin-top:10px;
+font-size:18px;
+color:#64748b;
+}
+
+.progress-box{
+margin-top:30px;
+background:white;
+padding:40px;
+border-radius:35px;
+box-shadow:0 12px 25px rgba(0,0,0,.08);
+}
+
+.progress-box h2{
+color:#1e293b;
+margin-bottom:20px;
+}
+
+.bar{
+height:30px;
+background:#e2e8f0;
+border-radius:20px;
+overflow:hidden;
+}
+
+.fill{
+height:100%;
+width:75%;
+background:linear-gradient(90deg,#f97316,#3b82f6);
+border-radius:20px;
+}
+
+.progress-text{
+margin-top:12px;
+font-size:18px;
+color:#64748b;
+}
+
+.achievement-grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.badge{
+background:white;
+padding:25px;
+border-radius:25px;
+text-align:center;
+box-shadow:0 12px 25px rgba(0,0,0,.08);
+}
+
+.badge span{
+font-size:50px;
+display:block;
+}
+
+.badge h3{
+margin-top:10px;
+color:#1e293b;
+}
+
+.badge p{
+margin-top:8px;
+color:#64748b;
+}
+
+.buttons{
+margin-top:40px;
+text-align:center;
+}
+
+.btn{
+display:inline-block;
+margin:10px;
+padding:16px 30px;
+border-radius:20px;
+text-decoration:none;
+font-weight:600;
+color:white;
+}
+
+.dashboard{
+background:#3b82f6;
+}
+
+.quiz{
+background:#f97316;
+}
+
+footer{
+text-align:center;
+margin-top:40px;
+padding-bottom:20px;
+color:#64748b;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>📈 Your Progress</h1>
+<p>Track your growth and become a Junior Ramanujan!</p>
+</div>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+<h2>{{ questions_solved }}</h2>
+<p>Questions Solved</p>
+</div>
+
+<div class="stat-card">
+<h2>{{ accuracy }}%</h2>
+<p>Accuracy</p>
+</div>
+
+<div class="stat-card">
+<h2>{{ quizzes_taken }}</h2>
+<p>Quizzes Taken</p>
+</div>
+
+<div class="stat-card">
+<h2>{{ best_score }}</h2>
+<p>Best Score</p>
+</div>
+
+</div>
+
+<div class="progress-box">
+
+<h2>Overall Progress</h2>
+
+<div class="bar">
+<div class="fill" style="width: {{ accuracy|default(0) }}%"></div>
+</div>
+
+<p class="progress-text">
+{{ accuracy }}% of your learning journey completed.
+Keep going! 🚀
+</p>
+
+</div>
+
+<h2 style="margin-top:30px;color:#1e293b;">
+🏆 Achievements to strike
+</h2>
+
+<div class="achievement-grid">
+
+<div class="badge">
+<span>🥇</span>
+<h3>Math Starter</h3>
+<p>Solved first 10 questions</p>
+</div>
+
+<div class="badge">
+<span>🔥</span>
+<h3>On Fire</h3>
+<p>7 day streak completed</p>
+</div>
+
+<div class="badge">
+<span>🧠</span>
+<h3>Math Genius</h3>
+<p>Accuracy above 90%</p>
+</div>
+
+<div class="badge">
+<span>🚀</span>
+<h3>Speed Solver</h3>
+<p>50 questions solved</p>
+</div>
+
+</div>
+
+<div class="buttons">
+
+<a href="{{ url_for('dashboard') }}" class="btn dashboard">
+← Dashboard
+</a>
+
+
+</div>
+
+<footer>
+© 2026 Jr. Ramanuja • Think • Solve • Grow
+</footer>
+
+</div>
+
+</body>
+</html>

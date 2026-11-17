@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard - Jr. Ramanuja</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Fredoka',sans-serif;
+}
+
+body{
+background:#fff7ed;
+padding:20px;
+overflow-x:hidden;
+position:relative;
+}
+
+body::before{
+content:'';
+position:absolute;
+width:300px;
+height:300px;
+background:#fde68a;
+border-radius:50%;
+top:-100px;
+left:-100px;
+z-index:-1;
+}
+
+body::after{
+content:'';
+position:absolute;
+width:350px;
+height:350px;
+background:#bfdbfe;
+border-radius:50%;
+bottom:-120px;
+right:-120px;
+z-index:-1;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.header{
+background:white;
+padding:30px;
+border-radius:35px;
+box-shadow:0 12px 30px rgba(0,0,0,0.08);
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.welcome h1{
+font-size:40px;
+color:#1e293b;
+}
+
+.welcome p{
+margin-top:8px;
+font-size:18px;
+color:#64748b;
+}
+
+.logo{
+width:90px;
+height:90px;
+border-radius:25px;
+overflow:hidden;
+border:4px dashed #cbd5e1;
+}
+
+.logo img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.section-title{
+margin-top:40px;
+margin-bottom:20px;
+font-size:32px;
+color:#1e293b;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:30px;
+box-shadow:0 12px 25px rgba(0,0,0,0.08);
+text-align:center;
+transition:.3s;
+cursor:pointer;
+text-decoration:none;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.icon{
+font-size:55px;
+}
+
+.card h3{
+margin-top:10px;
+color:#1e293b;
+font-size:24px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.stat-card{
+background:white;
+padding:30px;
+border-radius:30px;
+box-shadow:0 12px 25px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+.stat-card h2{
+font-size:40px;
+color:#f97316;
+}
+
+.stat-card p{
+margin-top:8px;
+color:#64748b;
+font-size:18px;
+}
+
+.progress-btn{
+display:inline-block;
+margin-top:30px;
+padding:18px 35px;
+background:#f97316;
+color:white;
+text-decoration:none;
+border-radius:25px;
+font-size:20px;
+font-weight:600;
+transition:.3s;
+}
+
+.progress-btn:hover{
+transform:scale(1.05);
+}
+
+.start-box{
+margin-top:40px;
+background:linear-gradient(135deg,#3b82f6,#06b6d4);
+padding:40px;
+border-radius:35px;
+text-align:center;
+color:white;
+}
+
+.start-box h2{
+font-size:38px;
+}
+
+.start-box p{
+margin-top:10px;
+font-size:18px;
+}
+
+.start-btn{
+display:inline-block;
+margin-top:20px;
+padding:18px 35px;
+background:white;
+color:#1e293b;
+text-decoration:none;
+border-radius:25px;
+font-size:20px;
+font-weight:600;
+transition:.3s;
+}
+
+.start-btn:hover{
+transform:scale(1.05);
+}
+
+.logout{
+display:inline-block;
+margin-top:30px;
+padding:15px 30px;
+background:#ef4444;
+color:white;
+text-decoration:none;
+border-radius:20px;
+font-weight:600;
+}
+
+footer{
+text-align:center;
+padding:30px 0;
+color:#64748b;
+font-size:17px;
+}
+
+@media(max-width:768px){
+
+.header{
+text-align:center;
+justify-content:center;
+}
+
+.welcome h1{
+font-size:32px;
+}
+
+.start-box h2{
+font-size:30px;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div class="welcome">
+<h1>Welcome, {{ name }} 🎓</h1>
+<p>Ready to sharpen your maths skills today?</p>
+</div>
+
+<div class="logo">
+<img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+</div>
+
+</div>
+
+<h2 class="section-title">Choose a Topic 📚</h2>
+
+<div class="grid">
+
+<a href="{{ url_for('quiz') }}?topic=addition" class="card">
+<div class="icon">➕</div>
+<h3>Addition</h3>
+</a>
+
+<a href="{{ url_for('quiz') }}?topic=subtraction" class="card">
+<div class="icon">➖</div>
+<h3>Subtraction</h3>
+</a>
+
+<a href="{{ url_for('quiz') }}?topic=multiplication" class="card">
+<div class="icon">✖️</div>
+<h3>Multiplication</h3>
+</a>
+
+<a href="{{ url_for('quiz') }}?topic=division" class="card">
+<div class="icon">➗</div>
+<h3>Division</h3>
+</a>
+
+</div>
+
+<h2 class="section-title">Your Progress 📈</h2>
+
+<div class="stats">
+
+<div class="stat-card">
+<h2>{{ questions_solved }}</h2>
+<p>Questions Solved</p>
+</div>
+
+<div class="stat-card">
+<h2>{{ accuracy }}%</h2>
+<p>Accuracy</p>
+</div>
+
+<div class="stat-card">
+<h2>{{ daily_streak }}🔥</h2>
+<p>Daily Streak</p>
+</div>
+
+</div>
+
+<div style="text-align:center;">
+
+<a href="{{ url_for('progress') }}" class="progress-btn">
+📈 View Full Progress
+</a>
+
+</div>
+
+<div class="start-box">
+
+<h2>Ready for Today's Challenge?</h2>
+
+<p>
+Practice daily and become a Junior Ramanujan!
+</p>
+
+<a href="{{ url_for('quiz') }}?topic=random" class="start-btn">
+Surprise Quiz 🚀
+</a>
+
+</div>
+
+<div style="text-align:center;">
+<a href="{{ url_for('logout') }}" class="logout">
+Logout
+</a>
+</div>
+
+<footer>
+© 2026 Jr. Ramanuja • Think • Solve • Grow
+</footer>
+
+</div>
+
+</body>
+</html>
